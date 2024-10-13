@@ -8,12 +8,10 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.plaminsky.research.core.SheetConstant.AREA_LESION_SHEET;
-
 @Component
 public class AreaLesionMapper {
 
-    private List<AreaLesion> toAreaLesions(Sheet sheet) {
+    public List<AreaLesion> toAreaLesions(Sheet sheet) {
         List<AreaLesion> areaLesions = new ArrayList<>();
 
         for (int i = 1; i <= sheet.getLastRowNum(); i++) {

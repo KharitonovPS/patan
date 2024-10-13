@@ -2,7 +2,6 @@ package org.plaminsky.research.mapper;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
-import org.plaminsky.research.entity.PathomorphVenules;
 import org.plaminsky.research.entity.PathomorphСapillaries;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +11,7 @@ import java.util.List;
 @Component
 public class PathomorphCapillariesMapper {
 
-    private List<PathomorphСapillaries> processPathomorphCapillaries(Sheet sheet) {
+    public List<PathomorphСapillaries> processPathomorphCapillaries(Sheet sheet) {
         List<PathomorphСapillaries> pathomorphCapillariesList = new ArrayList<>();
 
         for (int i = 1; i <= sheet.getLastRowNum(); i++) {

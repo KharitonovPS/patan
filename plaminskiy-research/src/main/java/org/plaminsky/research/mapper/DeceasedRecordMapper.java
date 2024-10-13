@@ -1,7 +1,7 @@
 package org.plaminsky.research.mapper;
 
-import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.plaminsky.research.entity.DeceasedRecord;
 import org.plaminsky.research.entity.Gender;
 import org.springframework.stereotype.Component;
@@ -13,7 +13,7 @@ import java.util.List;
 @Component
 public class DeceasedRecordMapper {
 
-    private List<DeceasedRecord> toDeceasedRecords(Sheet sheet) {
+    public List<DeceasedRecord> toDeceasedRecords(Sheet sheet) {
         List<DeceasedRecord> deceasedRecords = new ArrayList<>();
 
         for (int i = 1; i <= sheet.getLastRowNum(); i++) {
