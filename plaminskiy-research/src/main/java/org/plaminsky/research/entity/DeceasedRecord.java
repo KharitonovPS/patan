@@ -20,8 +20,8 @@ import java.time.LocalDate;
 public class DeceasedRecord {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(length = 36, unique = true, nullable = false)
+    private String id;
 
     @Column(name = "date_of_death", nullable = false)
     private LocalDate dateOfDeath;
