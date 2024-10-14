@@ -1,16 +1,22 @@
 package org.plaminsky.research.mapper;
 
+import lombok.RequiredArgsConstructor;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
-import org.plaminsky.research.entity.LaboratoryStudy;
 import org.plaminsky.research.entity.PathomorphArterioles;
+import org.plaminsky.research.repository.DeceasedRecordRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class PathomorphArteriolesMapper {
+
+    private final DeceasedRecordRepository deceasedRecordRepository;
 
     public List<PathomorphArterioles> toPathomorphArterioles(Sheet sheet) {
         List<PathomorphArterioles> pathomorphArteriolesList = new ArrayList<>();
@@ -20,43 +26,47 @@ public class PathomorphArteriolesMapper {
             if (row != null) {
                 PathomorphArterioles pathomorphArterioles = new PathomorphArterioles();
 
-                // Присваиваем значения из ячеек
-                pathomorphArterioles.setRadiusOfArteriolesZ1((float) row.getCell(0).getNumericCellValue());
-                pathomorphArterioles.setRadiusOfArteriolesZ2((float) row.getCell(1).getNumericCellValue());
-                pathomorphArterioles.setRadiusOfArteriolesZ3((float) row.getCell(2).getNumericCellValue());
-                pathomorphArterioles.setRadiusOfArteriolesZ4((float) row.getCell(3).getNumericCellValue());
-                pathomorphArterioles.setRadiusOfArteriolesZ5((float) row.getCell(4).getNumericCellValue());
-                pathomorphArterioles.setRadiusOfArteriolesZ6((float) row.getCell(5).getNumericCellValue());
+                // Set deceased record
+                if (row.getCell(1) != null) {
+                    pathomorphArterioles.setDeceasedRecord(
+                            deceasedRecordRepository.findById(row.getCell(1).getStringCellValue()).orElseThrow()
+                    );
+                }
 
-                pathomorphArterioles.setVolumeOfMicrocirculationOfArteriolesZ1((float) row.getCell(6).getNumericCellValue());
-                pathomorphArterioles.setVolumeOfMicrocirculationOfArteriolesZ2((float) row.getCell(7).getNumericCellValue());
-                pathomorphArterioles.setVolumeOfMicrocirculationOfArteriolesZ3((float) row.getCell(8).getNumericCellValue());
-                pathomorphArterioles.setVolumeOfMicrocirculationOfArteriolesZ4((float) row.getCell(9).getNumericCellValue());
-                pathomorphArterioles.setVolumeOfMicrocirculationOfArteriolesZ5((float) row.getCell(10).getNumericCellValue());
-                pathomorphArterioles.setVolumeOfMicrocirculationOfArteriolesZ6((float) row.getCell(11).getNumericCellValue());
+                // Set volume of microcirculation of arterioles
+                pathomorphArterioles.setVolumeOfMicrocirculationOfArteriolesZ1(getCellFloatValue(row.getCell(8)));
+                pathomorphArterioles.setVolumeOfMicrocirculationOfArteriolesZ2(getCellFloatValue(row.getCell(9)));
+                pathomorphArterioles.setVolumeOfMicrocirculationOfArteriolesZ3(getCellFloatValue(row.getCell(10)));
+                pathomorphArterioles.setVolumeOfMicrocirculationOfArteriolesZ4(getCellFloatValue(row.getCell(11)));
+                pathomorphArterioles.setVolumeOfMicrocirculationOfArteriolesZ5(getCellFloatValue(row.getCell(12)));
+                pathomorphArterioles.setVolumeOfMicrocirculationOfArteriolesZ6(getCellFloatValue(row.getCell(13)));
 
-                pathomorphArterioles.setTotalVolumeOfMicrocirculationOfArterioles((float) row.getCell(12).getNumericCellValue());
+                // Set total volume of microcirculation of arterioles
+                pathomorphArterioles.setTotalVolumeOfMicrocirculationOfArterioles(getCellFloatValue(row.getCell(14)));
 
-                pathomorphArterioles.setAverageRadiusOfArteriolesZ1((float) row.getCell(13).getNumericCellValue());
-                pathomorphArterioles.setAverageRadiusOfArteriolesZ2((float) row.getCell(14).getNumericCellValue());
-                pathomorphArterioles.setAverageRadiusOfArteriolesZ3((float) row.getCell(15).getNumericCellValue());
-                pathomorphArterioles.setAverageRadiusOfArteriolesZ4((float) row.getCell(16).getNumericCellValue());
-                pathomorphArterioles.setAverageRadiusOfArteriolesZ5((float) row.getCell(17).getNumericCellValue());
-                pathomorphArterioles.setAverageRadiusOfArteriolesZ6((float) row.getCell(18).getNumericCellValue());
+                // Set average radius of arterioles
+                pathomorphArterioles.setAverageRadiusOfArteriolesZ1(getCellFloatValue(row.getCell(15)));
+                pathomorphArterioles.setAverageRadiusOfArteriolesZ2(getCellFloatValue(row.getCell(16)));
+                pathomorphArterioles.setAverageRadiusOfArteriolesZ3(getCellFloatValue(row.getCell(17)));
+                pathomorphArterioles.setAverageRadiusOfArteriolesZ4(getCellFloatValue(row.getCell(18)));
+                pathomorphArterioles.setAverageRadiusOfArteriolesZ5(getCellFloatValue(row.getCell(19)));
+                pathomorphArterioles.setAverageRadiusOfArteriolesZ6(getCellFloatValue(row.getCell(20)));
 
-                pathomorphArterioles.setChangeInTheLumenOfArteriolesZ1((float) row.getCell(19).getNumericCellValue());
-                pathomorphArterioles.setChangeInTheLumenOfArteriolesZ2((float) row.getCell(20).getNumericCellValue());
-                pathomorphArterioles.setChangeInTheLumenOfArteriolesZ3((float) row.getCell(21).getNumericCellValue());
-                pathomorphArterioles.setChangeInTheLumenOfArteriolesZ4((float) row.getCell(22).getNumericCellValue());
-                pathomorphArterioles.setChangeInTheLumenOfArteriolesZ5((float) row.getCell(23).getNumericCellValue());
-                pathomorphArterioles.setChangeInTheLumenOfVenulesZ6((float) row.getCell(24).getNumericCellValue());
+                // Set change in the lumen of arterioles
+                pathomorphArterioles.setChangeInTheLumenOfArteriolesZ1(getCellFloatValue(row.getCell(21)));
+                pathomorphArterioles.setChangeInTheLumenOfArteriolesZ2(getCellFloatValue(row.getCell(22)));
+                pathomorphArterioles.setChangeInTheLumenOfArteriolesZ3(getCellFloatValue(row.getCell(23)));
+                pathomorphArterioles.setChangeInTheLumenOfArteriolesZ4(getCellFloatValue(row.getCell(24)));
+                pathomorphArterioles.setChangeInTheLumenOfArteriolesZ5(getCellFloatValue(row.getCell(25)));
+                pathomorphArterioles.setChangeInTheLumenOfVenulesZ6(getCellFloatValue(row.getCell(26)));
 
-                pathomorphArterioles.setResistanceOfArteriolesZ1((float) row.getCell(25).getNumericCellValue());
-                pathomorphArterioles.setResistanceOfArteriolesZ2((float) row.getCell(26).getNumericCellValue());
-                pathomorphArterioles.setResistanceOfArteriolesZ3((float) row.getCell(27).getNumericCellValue());
-                pathomorphArterioles.setResistanceOfArteriolesZ4((float) row.getCell(28).getNumericCellValue());
-                pathomorphArterioles.setResistanceOfArteriolesZ5((float) row.getCell(29).getNumericCellValue());
-                pathomorphArterioles.setResistanceOfArteriolesZ6((float) row.getCell(30).getNumericCellValue());
+                // Set resistance of arterioles
+                pathomorphArterioles.setResistanceOfArteriolesZ1(getCellFloatValue(row.getCell(27)));
+                pathomorphArterioles.setResistanceOfArteriolesZ2(getCellFloatValue(row.getCell(28)));
+                pathomorphArterioles.setResistanceOfArteriolesZ3(getCellFloatValue(row.getCell(29)));
+                pathomorphArterioles.setResistanceOfArteriolesZ4(getCellFloatValue(row.getCell(30)));
+                pathomorphArterioles.setResistanceOfArteriolesZ5(getCellFloatValue(row.getCell(31)));
+                pathomorphArterioles.setResistanceOfArteriolesZ6(getCellFloatValue(row.getCell(32)));
 
                 pathomorphArteriolesList.add(pathomorphArterioles);
             }
@@ -65,5 +75,17 @@ public class PathomorphArteriolesMapper {
         return pathomorphArteriolesList;
     }
 
-
+    //TODO: вынести в утильный класс
+    private Float getCellFloatValue(Cell cell) {
+        if (cell != null) {
+            if (cell.getCellType() == CellType.NUMERIC) {
+                try {
+                    return (float) cell.getNumericCellValue();
+                } catch (Exception e) {
+                    return null;
+                }
+            }
+        }
+        return 0.0f;
+    }
 }

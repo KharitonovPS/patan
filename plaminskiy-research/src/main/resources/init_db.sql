@@ -175,3 +175,5 @@ alter table if exists pathomorph_сapillaries
     add constraint fk_deceased_record
         foreign key (deceased_record_id)
             references deceased_record;
+
+alter table deceased_record add column if not exists days_of_illness integer;

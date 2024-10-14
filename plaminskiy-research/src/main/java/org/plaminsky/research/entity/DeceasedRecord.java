@@ -33,6 +33,9 @@ public class DeceasedRecord {
     @Enumerated(value = EnumType.STRING)
     private Gender gender;
 
+    @Column(name = "days_of_illness")
+    private int daysOfIllness;
+
     @Column(name = "bed_days")
     private int bedDays;
 
