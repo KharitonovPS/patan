@@ -1,6 +1,7 @@
 package org.plaminsky.research.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.plaminsky.research.core.SheetHandler;
 import org.plaminsky.research.mapper.LaboratoryStudyMapper;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import static org.plaminsky.research.core.SheetConstant.LABORATORY_STUDY_SHEET;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class LaboratoryStudySheetHandler implements SheetHandler {
@@ -38,5 +40,7 @@ public class LaboratoryStudySheetHandler implements SheetHandler {
     private void processSheet(Sheet sheet) {
         var laboratoryStudy = laboratoryStudyMapper.toLaboratoryStudy(sheet);
         laboratoryStudyRepository.saveAll(laboratoryStudy);
+        log.info("Processing sheet {}", sheet.getSheetName());
+        log.info("LaboratoryStudy processed: {}", laboratoryStudy.size());
     }
 }

@@ -1,6 +1,7 @@
 package org.plaminsky.research.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.plaminsky.research.core.SheetHandler;
 import org.plaminsky.research.mapper.AreaLesionMapper;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import static org.plaminsky.research.core.SheetConstant.AREA_LESION_SHEET;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AreaLessionSheetHandler implements SheetHandler {
@@ -38,5 +40,7 @@ public class AreaLessionSheetHandler implements SheetHandler {
     private void processSheet(Sheet sheet) {
         var areaLesions = areaLesionMapper.toAreaLesions(sheet);
         areaLesionRepository.saveAll(areaLesions);
+        log.info("Processing sheet {}", sheet.getSheetName());
+        log.info("AreaLesions processed: {}", areaLesions.size());
     }
 }

@@ -7,6 +7,7 @@ create table deceased_record
     bed_days          integer,
     date_of_death     date not null,
     phase_of_covid_19 integer,
+    days_of_illness integer,
     gender            varchar(255) check (gender in ('MALE', 'FEMALE'))
 );
 create table area_lesion
@@ -176,4 +177,3 @@ alter table if exists pathomorph_сapillaries
         foreign key (deceased_record_id)
             references deceased_record;
 
-alter table deceased_record add column if not exists days_of_illness integer;

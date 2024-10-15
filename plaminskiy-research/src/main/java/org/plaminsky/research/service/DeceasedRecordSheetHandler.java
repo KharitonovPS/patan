@@ -1,6 +1,7 @@
 package org.plaminsky.research.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.plaminsky.research.core.SheetHandler;
 import org.plaminsky.research.mapper.DeceasedRecordMapper;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import static org.plaminsky.research.core.SheetConstant.DECEASED_RECORD_SHEET;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class DeceasedRecordSheetHandler implements SheetHandler {
@@ -38,5 +40,7 @@ public class DeceasedRecordSheetHandler implements SheetHandler {
     private void processSheet(Sheet sheet) {
         var deceasedRecords = deceasedRecordMapper.toDeceasedRecords(sheet);
         deceasedRecordRepository.saveAll(deceasedRecords);
+        log.info("Processing sheet {}", sheet.getSheetName());
+        log.info("DeceasedRecord processed: {}", deceasedRecords.size());
     }
 }
