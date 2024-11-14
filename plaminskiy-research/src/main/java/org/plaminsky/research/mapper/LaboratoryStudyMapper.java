@@ -61,8 +61,8 @@ public class LaboratoryStudyMapper {
                 if (row.getCell(12) != null) {
                     laboratoryStudy.setDDimerNgPerMl((float) row.getCell(12).getNumericCellValue());
                 }
-                if (row.getCell(14) != null) {
-                    laboratoryStudy.setBilirubinUmolPerL((float) row.getCell(14).getNumericCellValue());
+                if (row.getCell(13) != null) {
+                    laboratoryStudy.setBilirubinUmolPerL((float) row.getCell(13).getNumericCellValue());
                 }
 
                 laboratoryStudies.add(laboratoryStudy);
