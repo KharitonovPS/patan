@@ -22,13 +22,14 @@ public class DeceasedRecordMapper {
             Row row = sheet.getRow(i);
             if (row != null) {
                 String id = row.getCell(0).getStringCellValue();
-                Date date = row.getCell(1).getDateCellValue(); // This gives a java.util.Date
-                LocalDate dateOfDeath = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();                int age = (int) row.getCell(2).getNumericCellValue();
+                Date date = row.getCell(1).getDateCellValue();
+                LocalDate dateOfDeath = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                int age = (int) row.getCell(2).getNumericCellValue();
                 String genderStr = row.getCell(3).getStringCellValue();
                 Gender gender;
-                if (genderStr.toLowerCase().equals("m")) {
+                if (genderStr.equalsIgnoreCase("m")) {
                     gender = Gender.MALE;
-                } else if (genderStr.toLowerCase().equals("f")) {
+                } else if (genderStr.equalsIgnoreCase("f")) {
                     gender = Gender.FEMALE;
                 } else {
                     throw new IllegalArgumentException("Invalid gender: " + genderStr);

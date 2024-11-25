@@ -1,6 +1,7 @@
 package org.plaminsky.research.mapper;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.plaminsky.research.entity.LaboratoryStudy;
@@ -9,6 +10,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static util.CellExtractor.extractFloatFromCell;
+import static util.CellExtractor.isValid;
 
 @Component
 @RequiredArgsConstructor
@@ -25,45 +29,21 @@ public class LaboratoryStudyMapper {
                 LaboratoryStudy laboratoryStudy = new LaboratoryStudy();
 
                 laboratoryStudy.setDeceasedRecord(
-                        deceasedRecordRepository.findById(row.getCell(1).getStringCellValue()).orElseThrow()
+                            deceasedRecordRepository.findById(row.getCell(1).getStringCellValue()).orElseThrow()
                 );
 
-                if (row.getCell(2) != null) {
-                    laboratoryStudy.setErythrocytes10e12PerL((float) row.getCell(2).getNumericCellValue());
-                }
-                if (row.getCell(3) != null) {
-                    laboratoryStudy.setHemoglobinGPerL((float) row.getCell(3).getNumericCellValue());
-                }
-                if (row.getCell(4) != null) {
-                    laboratoryStudy.setLeukocytes10e9PerL((float) row.getCell(4).getNumericCellValue());
-                }
-                if (row.getCell(5) != null) {
-                    laboratoryStudy.setPlatelets10e9PerL((float) row.getCell(5).getNumericCellValue());
-                }
-                if (row.getCell(6) != null) {
-                    laboratoryStudy.setCreatinineUmolPerL((float) row.getCell(6).getNumericCellValue());
-                }
-                if (row.getCell(7) != null) {
-                    laboratoryStudy.setCReactiveProteinMgPerL((float) row.getCell(7).getNumericCellValue());
-                }
-                if (row.getCell(8) != null) {
-                    laboratoryStudy.setProcalcitoninNgPerMl((float) row.getCell(8).getNumericCellValue());
-                }
-                if (row.getCell(9) != null) {
-                    laboratoryStudy.setTroponinNgPerL((float) row.getCell(9).getNumericCellValue());
-                }
-                if (row.getCell(10) != null) {
-                    laboratoryStudy.setFerritinUgPerL((float) row.getCell(10).getNumericCellValue());
-                }
-                if (row.getCell(11) != null) {
-                    laboratoryStudy.setFibrinogenGPerL((float) row.getCell(11).getNumericCellValue());
-                }
-                if (row.getCell(12) != null) {
-                    laboratoryStudy.setDDimerNgPerMl((float) row.getCell(12).getNumericCellValue());
-                }
-                if (row.getCell(13) != null) {
-                    laboratoryStudy.setBilirubinUmolPerL((float) row.getCell(13).getNumericCellValue());
-                }
+                laboratoryStudy.setErythrocytes10e12PerL(extractFloatFromCell(row.getCell(2)));
+                laboratoryStudy.setHemoglobinGPerL(extractFloatFromCell(row.getCell(3)));
+                laboratoryStudy.setLeukocytes10e9PerL(extractFloatFromCell(row.getCell(4)));
+                laboratoryStudy.setPlatelets10e9PerL(extractFloatFromCell(row.getCell(5)));
+                laboratoryStudy.setCreatinineUmolPerL(extractFloatFromCell(row.getCell(6)));
+                laboratoryStudy.setCReactiveProteinMgPerL(extractFloatFromCell(row.getCell(7)));
+                laboratoryStudy.setProcalcitoninNgPerMl(extractFloatFromCell(row.getCell(8)));
+                laboratoryStudy.setTroponinNgPerL(extractFloatFromCell(row.getCell(9)));
+                laboratoryStudy.setFerritinUgPerL(extractFloatFromCell(row.getCell(10)));
+                laboratoryStudy.setFibrinogenGPerL(extractFloatFromCell(row.getCell(11)));
+                laboratoryStudy.setDDimerNgPerMl(extractFloatFromCell(row.getCell(12)));
+                laboratoryStudy.setBilirubinUmolPerL(extractFloatFromCell(row.getCell(13)));
 
                 laboratoryStudies.add(laboratoryStudy);
             }

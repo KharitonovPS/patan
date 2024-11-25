@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+import static util.CellExtractor.extractFloatFromCell;
+
 @Component
 @RequiredArgsConstructor
 public class AreaLesionMapper {
@@ -29,25 +31,12 @@ public class AreaLesionMapper {
                             deceasedRecordRepository.findById(row.getCell(1).getStringCellValue()).orElseThrow()
                     );
                 }
-
-                if (row.getCell(2) != null) {
-                    areaLesion.setAreaLesionZ1((float) row.getCell(2).getNumericCellValue());
-                }
-                if (row.getCell(3) != null) {
-                    areaLesion.setAreaLesionZ2((float) row.getCell(3).getNumericCellValue());
-                }
-                if (row.getCell(4) != null) {
-                    areaLesion.setAreaLesionZ3((float) row.getCell(4).getNumericCellValue());
-                }
-                if (row.getCell(5) != null) {
-                    areaLesion.setAreaLesionZ4((float) row.getCell(5).getNumericCellValue());
-                }
-                if (row.getCell(6) != null) {
-                    areaLesion.setAreaLesionZ5((float) row.getCell(6).getNumericCellValue());
-                }
-                if (row.getCell(7) != null) {
-                    areaLesion.setAreaLesionZ6((float) row.getCell(7).getNumericCellValue());
-                }
+                areaLesion.setAreaLesionZ1(extractFloatFromCell(row.getCell(2)));
+                areaLesion.setAreaLesionZ2(extractFloatFromCell(row.getCell(3)));
+                areaLesion.setAreaLesionZ3(extractFloatFromCell(row.getCell(4)));
+                areaLesion.setAreaLesionZ4(extractFloatFromCell(row.getCell(5)));
+                areaLesion.setAreaLesionZ5(extractFloatFromCell(row.getCell(6)));
+                areaLesion.setAreaLesionZ6(extractFloatFromCell(row.getCell(7)));
                 areaLesions.add(areaLesion);
             }
         }
