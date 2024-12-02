@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'org.plaminsky'
-version = '0.0.3-SNAPSHOT'
+version = '0.0.1-SNAPSHOT'
 
 java {
 	toolchain {
