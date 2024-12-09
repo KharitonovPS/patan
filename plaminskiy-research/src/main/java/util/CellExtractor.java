@@ -12,22 +12,41 @@ public class CellExtractor {
         return cell != null && cell.getCellType() != CellType.BLANK;
     }
 
-    public static float extractFloatFromCell(Cell cell) {
+    public static Float extractFloatFromCell(Cell cell) {
         if (cell == null) {
-            return 0.0f;
+            return null;
         }
         try {
-            return parseFromCell(cell);
+            return parseFloatFromCell(cell);
         } catch (Exception e) {
-            return 0.0f;
+            return null;
         }
     }
 
-    private static float parseFromCell(Cell cell) {
+    private static Float parseFloatFromCell(Cell cell) {
         try {
             return Float.parseFloat(cell.getStringCellValue().trim());
         } catch (Exception e) {
             return (float) cell.getNumericCellValue();
+        }
+    }
+
+    public static Integer extractIntegerFromCell(Cell cell) {
+        if (cell == null) {
+            return null;
+        }
+        try {
+            return parseIntegerFromCell(cell);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private static Integer parseIntegerFromCell(Cell cell) {
+        try {
+            return Integer.parseInt(cell.getStringCellValue().trim());
+        } catch (Exception e) {
+            return (int) cell.getNumericCellValue();
         }
     }
 

@@ -3,14 +3,13 @@ package org.plaminsky.patan.entity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinColumns;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,21 +18,19 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Lung {
+@Table(name = "lung", schema = "patan_spb")
+public class Lungs {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "deceased_record_id", referencedColumnName = "id",
-            foreignKey = @ForeignKey(name = "fk_deceased_record")
-    )
-    private DeceasedRecord deceasedRecord;
-
-    @Enumerated(EnumType.ORDINAL)
-    @Column(nullable = false, name = "etiology_of_sepsis")
-    private Group group;
+    @JoinColumns({
+            @JoinColumn(name = "autopsy_id", referencedColumnName = "autopsy_id"),
+            @JoinColumn(name = "sepsis_type", referencedColumnName = "sepsis_type")
+    })
+    private Sepsis sepsis;
 
     @Column(name = "congestion_arterioles")
     private Integer congestionArterioles;

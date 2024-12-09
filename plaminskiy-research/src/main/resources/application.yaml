@@ -2,7 +2,7 @@ spring:
   application:
     name: plaminskiy-research
   datasource:
-    url: jdbc:postgresql://localhost:5432/pmva-plaminskiy
+    url: jdbc:postgresql://localhost:5432/patan-spb
     username: postgres
     password: password
     driverClassName: org.postgresql.Driver

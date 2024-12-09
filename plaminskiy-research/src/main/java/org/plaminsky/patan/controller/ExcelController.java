@@ -32,7 +32,7 @@ public class ExcelController {
 
     @PostMapping("/upload")
     public ResponseEntity<String> uploadExcel(@RequestParam("file") MultipartFile file) {
-        log.info("Uploading file: " + file.getOriginalFilename());
+        log.info("Uploading file: {}", file.getOriginalFilename());
         return service.uploadExcel(file);
     }
 

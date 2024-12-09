@@ -17,7 +17,7 @@ import java.util.ArrayList;
 @RequiredArgsConstructor
 public class ExcelProcessingService {
 
-    private final DeceasedRecordSheetHandler deceasedRecordSheetHandler;
+    private final SepsisSheetHandler sepsisSheetHandler;
 
     public ResponseEntity<String> uploadExcel(MultipartFile file) {
         if (file.isEmpty()) {
@@ -30,11 +30,11 @@ public class ExcelProcessingService {
                 sheets.add(workbook.getSheetAt(i));
             }
             for (Sheet sheet : sheets) {
-                deceasedRecordSheetHandler.handle(sheet);
+                sepsisSheetHandler.handle(sheet);
             }
 
             return ResponseEntity.ok("File processed successfully");
-        } catch (IOException e) {
+        } catch (Exception e) {
             log.error("Error processing Excel file", e);
             return ResponseEntity.status(500).body("Failed to process Excel file");
         }

@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PathomorphVenulesRepository extends JpaRepository<Liver, Long> {
+public interface LiverRepository extends JpaRepository<Liver, Long> {
 }
