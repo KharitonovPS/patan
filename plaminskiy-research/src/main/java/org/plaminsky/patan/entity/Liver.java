@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "liver", schema = "liver")
+@Table(name = "liver", schema = "patan_spb")
 public class Liver {
 
     @Id
