@@ -1,14 +1,13 @@
 package org.plaminsky.patan.entity;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinColumns;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,12 +24,13 @@ public class Kidneys {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumns({
-            @JoinColumn(name = "autopsy_id", referencedColumnName = "autopsy_id"),
-            @JoinColumn(name = "sepsis_type", referencedColumnName = "sepsis_type")
-    })
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sepsis_id", nullable = false)
     private Sepsis sepsis;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sepsis_type_id", referencedColumnName = "id", nullable = false)
+    private SepsisType sepsisType;
 
     @Column(name = "interstitial_fibrosis_of_cerebral_substance")
     private Integer interstitialFibrosisOfCerebralSubstance;
@@ -40,8 +40,7 @@ public class Kidneys {
 
     @Column(name = "fraction_of_lymphocytic_interstitial_inflammation_in_cortex")
     private Integer fractionOfLymphocyticInterstitialInflammationInCortex;
-
-    @Column(name = "fraction_of_lymphocytic_interstitial_inflammation_in_cerebral_substance")
+    @Column(name = "fraction_of_lymphocytic_interstitial_inflammation_in_cerebral_sub")
     private Integer fractionOfLymphocyticInterstitialInflammationInCerebralSubstance;
 
     @Column(name = "acute_purulent_inflammation_in_cortex")
@@ -285,6 +284,7 @@ public class Kidneys {
     private Integer corticalZonePeritubularCapillarySheddingOfEndothelium;
     private Integer corticalZonePeritubularCapillaryEdemaOfEndothelium;
     private Float corticalZonePeritubularCapillaryLeukostasis;
+    @Column(name = "medullary_zone_pr_capillary_marginal_stasis_of_leukocytes")
     private Float corticalZonePeritubularCapillaryMarginalStasisOfLeukocytes;
     private Float corticalZonePeritubularCapillaryPerivascularInfiltration;
     private Integer corticalZonePeritubularCapillaryDiapedesisHemorrhages;
@@ -317,6 +317,7 @@ public class Kidneys {
     private Integer medullaryGlomerulusArterioleDiapedesisHemorrhages;
     private Integer medullaryGlomerulusArterioleMicrobes;
 
+    @Column(name = "med_zone_str_vens_and_capillary_diameter")
     private Float medullaryZonePeritubularCapillaryDiameter;
     private Float medullaryZonePeritubularCapillaryWallThickness;
     private Float medullaryZonePeritubularCapillaryKernoghanIndex;
@@ -328,25 +329,30 @@ public class Kidneys {
     private Integer medullaryZonePeritubularCapillarySheddingOfEndothelium;
     private Integer medullaryZonePeritubularCapillaryEdemaOfEndothelium;
     private Integer medullaryZonePeritubularCapillaryLeukostasis;
-    private Integer medullaryZonePeritubularCapillaryMarginalStasisOfLeukocytes;
+    private Integer medullaryZonePeritubularCapillaryMarginalStasisOfLeus;
     private Integer medullaryZonePeritubularCapillaryPerivascularInfiltration;
     private Integer medullaryZonePeritubularCapillaryDiapedesisHemorrhages;
     private Integer medullaryZonePeritubularCapillaryMicrobes;
 
-    private Float medullaryZoneStraightVenulesAndCapillariesDiameter;
-    private Float medullaryZoneStraightVenulesAndCapillariesWallThickness;
-    private Float medullaryZoneStraightVenulesAndCapillariesKernoghanIndex;
-    private Integer medullaryZoneStraightVenulesAndCapillariesHyperemia;
-    private Integer medullaryZoneStraightVenulesAndCapillariesSludges;
-    private Integer medullaryZoneStraightVenulesAndCapillariesFibrinousThrombi;
-    private Integer medullaryZoneStraightVenulesAndCapillariesErythrocyticThrombi;
-    private Integer medullaryZoneStraightVenulesAndCapillariesUnalteredEndothelium;
-    private Integer medullaryZoneStraightVenulesAndCapillariesSheddingOfEndothelium;
-    private Integer medullaryZoneStraightVenulesAndCapillariesEdemaOfEndothelium;
-    private Integer medullaryZoneStraightVenulesAndCapillariesLeukostasis;
-    private Integer medullaryZoneStraightVenulesAndCapillariesMarginalStasisOfLeukocytes;
-    private Integer medullaryZoneStraightVenulesAndCapillariesPerivascularInfiltration;
-    private Integer medullaryZoneStraightVenulesAndCapillariesDiapedesisHemorrhages;
-    private Integer medullaryZoneStraightVenulesAndCapillariesMicrobes;
-    private Integer medullaryZoneStraightVenulesAndCapillariesFibrosisOfPeritubularStroma;
+    private Float medZoneStrVensAndCapsDiameter;
+    private Float medZoneStrVensAndCapsWallThickness;
+    private Float medZoneStrVensAndCapsKernoghanIndex;
+    @Column(name = "med_zone_str_vens_and_capillary_hyperemia")
+    private Integer medZoneStrVensAndCapsHyperemia;
+    private Integer medZoneStrVensAndCapsSludges;
+    @Column(name = "med_zone_str_vens_and_capillary_fibrinous_thrombi")
+    private Integer medZoneStrVensAndCapsFibrinousThrombi;
+    @Column(name = "med_zone_str_vens_and_capillary_erythrocytic_thrombi")
+    private Integer medZoneStrVensAndCapsErythrocyticThrombi;
+    private Integer medZoneStrVensAndCapsSheddingOfEndothelium;
+    private Integer medZoneStrVensAndCapsEdemaOfEndothelium;
+    @Column(name = "med_zone_str_vens_and_capillary_edema_of_endothelium")
+    private Integer medZoneStrVensAndCapsUnalteredEndothelium;
+    private Integer medZoneStrVensAndCapsLeukostasis;
+    private Integer medZoneStrVensAndCapsMarginalStasisOfLeukocytes;
+    private Integer medZoneStrVensAndCapsPerivascularInfiltration;
+    @Column(name = "med_zone_str_vens_and_capillary_diapedesis_hemorrhages")
+    private Integer medZoneStrVensAndCapsDiapedesisHemorrhages;
+    private Integer medZoneStrVensAndCapsMicrobes;
+    private Integer medZoneStrVensAndCapsFibrosisOfPeritubularStroma;
 }

@@ -5,6 +5,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.plaminsky.patan.entity.Lungs;
 import org.plaminsky.patan.repository.SepsisRepository;
+import org.plaminsky.patan.repository.SepsisTypeRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import static util.CellExtractor.extractIntegerFromCell;
 public class LungsMapper {
 
     private final SepsisRepository sepsisRepository;
+    private final SepsisTypeRepository sepsisTypeRepository;
 
     public List<Lungs> toLungs(Sheet sheet) {
         List<Lungs> lungsList = new ArrayList<>();
@@ -27,12 +29,23 @@ public class LungsMapper {
             if (row != null) {
                 var lungs = new Lungs();
 
-                lungs.setId((long) row.getCell(0).getNumericCellValue());
                 if (row.getCell(1) != null) {
                     lungs.setSepsis(
-                            sepsisRepository.findByAutopsyIdAndSepsisType(
-                                    row.getCell(1).getStringCellValue(),
-                                    (long) row.getCell(2).getNumericCellValue()
+                            sepsisRepository.findByAutopsyId(
+                                    row.getCell(1).getStringCellValue()
+                            ).orElseThrow(
+                                    () -> new IllegalArgumentException("Sepsis not found row:%s sheet:%s".formatted(
+                                            row.getRowNum(),
+                                            sheet.getSheetName())
+                                    )
+                            )
+                    );
+                }
+
+                if (row.getCell(1) != null) {
+                    lungs.setSepsisType(
+                            sepsisTypeRepository.findById(
+                                    (long)  row.getCell(2).getNumericCellValue()
                             ).orElseThrow(
                                     () -> new IllegalArgumentException("Sepsis not found row:%s sheet:%s".formatted(
                                             row.getRowNum(),

@@ -5,6 +5,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.plaminsky.patan.entity.Kidneys;
 import org.plaminsky.patan.repository.SepsisRepository;
+import org.plaminsky.patan.repository.SepsisTypeRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import static util.CellExtractor.extractIntegerFromCell;
 public class KidneysMapper {
 
     private final SepsisRepository sepsisRepository;
+    private final SepsisTypeRepository sepsisTypeRepository;
 
 
     public List<Kidneys> toKidneys(Sheet sheet) {
@@ -28,12 +30,23 @@ public class KidneysMapper {
             if (row != null) {
                 var kidneys = new Kidneys();
 
-                kidneys.setId((long) row.getCell(0).getNumericCellValue());
                 if (row.getCell(1) != null) {
                     kidneys.setSepsis(
-                            sepsisRepository.findByAutopsyIdAndSepsisType(
-                                    row.getCell(1).getStringCellValue(),
-                                    (long) row.getCell(2).getNumericCellValue()
+                            sepsisRepository.findByAutopsyId(
+                                    row.getCell(1).getStringCellValue()
+                            ).orElseThrow(
+                                    () -> new IllegalArgumentException("Sepsis not found row:%s sheet:%s".formatted(
+                                            row.getRowNum(),
+                                            sheet.getSheetName())
+                                    )
+                            )
+                    );
+                }
+
+                if (row.getCell(1) != null) {
+                    kidneys.setSepsisType(
+                            sepsisTypeRepository.findById(
+                                    (long)  row.getCell(2).getNumericCellValue()
                             ).orElseThrow(
                                     () -> new IllegalArgumentException("Sepsis not found row:%s sheet:%s".formatted(
                                             row.getRowNum(),
@@ -178,27 +191,27 @@ public class KidneysMapper {
                 kidneys.setMedullaryZonePeritubularCapillarySheddingOfEndothelium(extractIntegerFromCell(row.getCell(130)));
                 kidneys.setMedullaryZonePeritubularCapillaryEdemaOfEndothelium(extractIntegerFromCell(row.getCell(131)));
                 kidneys.setMedullaryZonePeritubularCapillaryLeukostasis(extractIntegerFromCell(row.getCell(132)));
-                kidneys.setMedullaryZonePeritubularCapillaryMarginalStasisOfLeukocytes(extractIntegerFromCell(row.getCell(133)));
+                kidneys.setMedullaryZonePeritubularCapillaryMarginalStasisOfLeus(extractIntegerFromCell(row.getCell(133)));
                 kidneys.setMedullaryZonePeritubularCapillaryPerivascularInfiltration(extractIntegerFromCell(row.getCell(134)));
                 kidneys.setMedullaryZonePeritubularCapillaryDiapedesisHemorrhages(extractIntegerFromCell(row.getCell(135)));
                 kidneys.setMedullaryZonePeritubularCapillaryMicrobes(extractIntegerFromCell(row.getCell(136)));
 
-                kidneys.setMedullaryZoneStraightVenulesAndCapillariesDiameter(extractFloatFromCell(row.getCell(137)));
-                kidneys.setMedullaryZoneStraightVenulesAndCapillariesWallThickness(extractFloatFromCell(row.getCell(138)));
-                kidneys.setMedullaryZoneStraightVenulesAndCapillariesKernoghanIndex(extractFloatFromCell(row.getCell(139)));
-                kidneys.setMedullaryZoneStraightVenulesAndCapillariesHyperemia(extractIntegerFromCell(row.getCell(140)));
-                kidneys.setMedullaryZoneStraightVenulesAndCapillariesSludges(extractIntegerFromCell(row.getCell(141)));
-                kidneys.setMedullaryZoneStraightVenulesAndCapillariesFibrinousThrombi(extractIntegerFromCell(row.getCell(142)));
-                kidneys.setMedullaryZoneStraightVenulesAndCapillariesErythrocyticThrombi(extractIntegerFromCell(row.getCell(143)));
-                kidneys.setMedullaryZoneStraightVenulesAndCapillariesUnalteredEndothelium(extractIntegerFromCell(row.getCell(144)));
-                kidneys.setMedullaryZoneStraightVenulesAndCapillariesSheddingOfEndothelium(extractIntegerFromCell(row.getCell(145)));
-                kidneys.setMedullaryZoneStraightVenulesAndCapillariesEdemaOfEndothelium(extractIntegerFromCell(row.getCell(146)));
-                kidneys.setMedullaryZoneStraightVenulesAndCapillariesLeukostasis(extractIntegerFromCell(row.getCell(147)));
-                kidneys.setMedullaryZoneStraightVenulesAndCapillariesMarginalStasisOfLeukocytes(extractIntegerFromCell(row.getCell(148)));
-                kidneys.setMedullaryZoneStraightVenulesAndCapillariesPerivascularInfiltration(extractIntegerFromCell(row.getCell(149)));
-                kidneys.setMedullaryZoneStraightVenulesAndCapillariesDiapedesisHemorrhages(extractIntegerFromCell(row.getCell(150)));
-                kidneys.setMedullaryZoneStraightVenulesAndCapillariesMicrobes(extractIntegerFromCell(row.getCell(151)));
-                kidneys.setMedullaryZoneStraightVenulesAndCapillariesFibrosisOfPeritubularStroma(extractIntegerFromCell(row.getCell(152)));
+                kidneys.setMedZoneStrVensAndCapsDiameter(extractFloatFromCell(row.getCell(137)));
+                kidneys.setMedZoneStrVensAndCapsWallThickness(extractFloatFromCell(row.getCell(138)));
+                kidneys.setMedZoneStrVensAndCapsKernoghanIndex(extractFloatFromCell(row.getCell(139)));
+                kidneys.setMedZoneStrVensAndCapsHyperemia(extractIntegerFromCell(row.getCell(140)));
+                kidneys.setMedZoneStrVensAndCapsSludges(extractIntegerFromCell(row.getCell(141)));
+                kidneys.setMedZoneStrVensAndCapsFibrinousThrombi(extractIntegerFromCell(row.getCell(142)));
+                kidneys.setMedZoneStrVensAndCapsErythrocyticThrombi(extractIntegerFromCell(row.getCell(143)));
+                kidneys.setMedZoneStrVensAndCapsUnalteredEndothelium(extractIntegerFromCell(row.getCell(144)));
+                kidneys.setMedZoneStrVensAndCapsSheddingOfEndothelium(extractIntegerFromCell(row.getCell(145)));
+                kidneys.setMedZoneStrVensAndCapsEdemaOfEndothelium(extractIntegerFromCell(row.getCell(146)));
+                kidneys.setMedZoneStrVensAndCapsLeukostasis(extractIntegerFromCell(row.getCell(147)));
+                kidneys.setMedZoneStrVensAndCapsMarginalStasisOfLeukocytes(extractIntegerFromCell(row.getCell(148)));
+                kidneys.setMedZoneStrVensAndCapsPerivascularInfiltration(extractIntegerFromCell(row.getCell(149)));
+                kidneys.setMedZoneStrVensAndCapsDiapedesisHemorrhages(extractIntegerFromCell(row.getCell(150)));
+                kidneys.setMedZoneStrVensAndCapsMicrobes(extractIntegerFromCell(row.getCell(151)));
+                kidneys.setMedZoneStrVensAndCapsFibrosisOfPeritubularStroma(extractIntegerFromCell(row.getCell(152)));
 
                 kidneysList.add(kidneys);
             }

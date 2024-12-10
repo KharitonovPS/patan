@@ -5,6 +5,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.plaminsky.patan.entity.Brain;
 import org.plaminsky.patan.repository.SepsisRepository;
+import org.plaminsky.patan.repository.SepsisTypeRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import static util.CellExtractor.extractIntegerFromCell;
 public class BrainMapper {
 
     private final SepsisRepository sepsisRepository;
+    private final SepsisTypeRepository sepsisTypeRepository;
 
     public List<Brain> toBrain(Sheet sheet) {
         List<Brain> brains = new ArrayList<>();
@@ -27,12 +29,10 @@ public class BrainMapper {
             if (row != null) {
                 var brain = new Brain();
 
-                brain.setId((long) row.getCell(0).getNumericCellValue());
                 if (row.getCell(1) != null) {
                     brain.setSepsis(
-                            sepsisRepository.findByAutopsyIdAndSepsisType(
-                                    row.getCell(1).getStringCellValue(),
-                                    (long) row.getCell(2).getNumericCellValue()
+                            sepsisRepository.findByAutopsyId(
+                                    row.getCell(1).getStringCellValue()
                             ).orElseThrow(
                             () -> new IllegalArgumentException("Sepsis not found row:%s sheet:%s".formatted(
                                     row.getRowNum(),
@@ -41,6 +41,20 @@ public class BrainMapper {
                     )
                     );
                 }
+
+                if (row.getCell(1) != null) {
+                    brain.setSepsisType(
+                            sepsisTypeRepository.findById(
+                                    (long)  row.getCell(2).getNumericCellValue()
+                            ).orElseThrow(
+                                    () -> new IllegalArgumentException("Sepsis not found row:%s sheet:%s".formatted(
+                                            row.getRowNum(),
+                                            sheet.getSheetName())
+                                    )
+                            )
+                    );
+                }
+
                 brain.setCongestionVessels(extractFloatFromCell(row.getCell(3)));
                 brain.setFibrinClotsInVessels(extractIntegerFromCell(row.getCell(4)));
                 brain.setRedCellSludgeInVessels(extractIntegerFromCell(row.getCell(5)));

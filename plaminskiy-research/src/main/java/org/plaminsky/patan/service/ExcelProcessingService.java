@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -17,7 +16,7 @@ import java.util.ArrayList;
 @RequiredArgsConstructor
 public class ExcelProcessingService {
 
-    private final SepsisSheetHandler sepsisSheetHandler;
+    private final SepsisTypeSheetHandler sepsisTypeSheetHandler;
 
     public ResponseEntity<String> uploadExcel(MultipartFile file) {
         if (file.isEmpty()) {
@@ -30,7 +29,7 @@ public class ExcelProcessingService {
                 sheets.add(workbook.getSheetAt(i));
             }
             for (Sheet sheet : sheets) {
-                sepsisSheetHandler.handle(sheet);
+                sepsisTypeSheetHandler.handle(sheet);
             }
 
             return ResponseEntity.ok("File processed successfully");
